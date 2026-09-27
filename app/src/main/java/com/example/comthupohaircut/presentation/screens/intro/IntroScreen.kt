@@ -95,7 +95,7 @@ fun IntroContent(
     val scope = rememberCoroutineScope()
     val isLastPage = pagerState.currentPage == pages.lastIndex
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(gradientBrush)
     ) {
