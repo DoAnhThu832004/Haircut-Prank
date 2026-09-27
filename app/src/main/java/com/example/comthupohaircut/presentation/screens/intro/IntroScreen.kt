@@ -30,8 +30,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -47,13 +49,36 @@ import androidx.compose.ui.unit.sp
 import com.example.comthupohaircut.R
 import com.example.comthupohaircut.ui.theme.ScreenGradientEnd
 import com.example.comthupohaircut.ui.theme.ScreenGradientStart
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 data class IntroPageData(val imgRes: Int, val titleRes: Int)
 
 @Composable
 fun IntroScreen(
-    onFinished: () -> Unit
+    viewModel: IntroViewModel,
+    onNavigateToMain: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val currentOnNavigateToMain by rememberUpdatedState(onNavigateToMain)
+    LaunchedEffect(viewModel.effectFlow) {
+        viewModel.effectFlow.collectLatest { effect ->
+            when (effect) {
+                is IntroUiEffect.NavigateToMain -> {
+                    currentOnNavigateToMain()
+                }
+            }
+        }
+    }
+    IntroContent(
+        onFinished = { viewModel.onFinishIntro() },
+        modifier = modifier
+    )
+}
+@Composable
+fun IntroContent(
+    onFinished: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val pages = listOf(
         IntroPageData(R.drawable.intro_1, R.string.intro_title_1),
@@ -210,9 +235,10 @@ fun IntroScreen(
         }
     }
 }
-
 @Preview
 @Composable
 fun IntroScreenPreview() {
-    IntroScreen(onFinished = {})
+    IntroContent(
+        onFinished = {}
+    )
 }

@@ -28,13 +28,11 @@ fun AppNavHost(navController: NavHostController) {
             )
         }
         composable(Screen.Intro.route) {
-            val introViewModel: IntroViewModel = hiltViewModel()
             IntroScreen(
-                onFinished = {
-                    introViewModel.onIntroCompleted {
-                        navController.navigate(Screen.Main.route) {
-                            popUpTo(Screen.Intro.route) { inclusive = true }
-                        }
+                viewModel = hiltViewModel(),
+                onNavigateToMain = {
+                    navController.navigate(Screen.Main.route) {
+                        popUpTo(Screen.Intro.route) { inclusive = true }
                     }
                 }
             )
