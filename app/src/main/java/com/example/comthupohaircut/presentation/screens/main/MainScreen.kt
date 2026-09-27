@@ -17,7 +17,7 @@ fun MainScreen() {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Welcome to the Intro Screen",
+            text = "Welcome to the Main Screen",
         )
     }
 }

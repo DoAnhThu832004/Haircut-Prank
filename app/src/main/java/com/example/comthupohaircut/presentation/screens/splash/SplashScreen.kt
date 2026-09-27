@@ -21,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -33,6 +34,8 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.comthupohaircut.R
+import com.example.comthupohaircut.ui.theme.ScreenGradientEnd
+import com.example.comthupohaircut.ui.theme.ScreenGradientStart
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -74,9 +77,16 @@ fun SplashContent(
         composition = loadingComposition,
         iterations = LottieConstants.IterateForever
     )
+    val gradientBrush = Brush.verticalGradient(
+        colors = listOf(
+            ScreenGradientStart,
+            ScreenGradientEnd
+        )
+    )
     Box(
         modifier = modifier
             .fillMaxSize()
+            .background(gradientBrush)
             .statusBarsPadding()
             .navigationBarsPadding()
     ) {

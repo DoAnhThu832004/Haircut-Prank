@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.comthupohaircut.presentation.screens.intro.IntroScreen
+import com.example.comthupohaircut.presentation.screens.intro.IntroViewModel
 import com.example.comthupohaircut.presentation.screens.main.MainScreen
 import com.example.comthupohaircut.presentation.screens.splash.SplashScreen
 
@@ -27,7 +28,16 @@ fun AppNavHost(navController: NavHostController) {
             )
         }
         composable(Screen.Intro.route) {
-            IntroScreen()
+            val introViewModel: IntroViewModel = hiltViewModel()
+            IntroScreen(
+                onFinished = {
+                    introViewModel.onIntroCompleted {
+                        navController.navigate(Screen.Main.route) {
+                            popUpTo(Screen.Intro.route) { inclusive = true }
+                        }
+                    }
+                }
+            )
         }
         composable(Screen.Main.route) {
             MainScreen()

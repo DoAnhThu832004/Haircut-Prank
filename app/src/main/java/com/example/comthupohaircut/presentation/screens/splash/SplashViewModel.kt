@@ -43,7 +43,7 @@ class SplashViewModel @Inject constructor(
                 prepareInitialDataUseCase()
             }
             val elapsed = SystemClock.elapsedRealtime() - startMs
-            val minDisplayTime = 1800L
+            val minDisplayTime = 3600L
             if(elapsed < minDisplayTime) {
                 delay(minDisplayTime - elapsed)
             }

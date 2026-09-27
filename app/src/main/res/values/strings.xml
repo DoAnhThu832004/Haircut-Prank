@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">com.thupo.haircut</string>
     <string name="retry">Retry</string>
+    <string name="intro_title_1">PRANK SOUNDS\nFOR FUN</string>
+    <string name="intro_title_2">300+ FUNNY\nSOUND EFFECT</string>
+    <string name="intro_title_3">LAUGH ANYTIME,\nANYWHERE!</string>
+    <string name="skip">Skip</string>
+    <string name="next">Next</string>
+    <string name="start">Start</string>
 </resources>
