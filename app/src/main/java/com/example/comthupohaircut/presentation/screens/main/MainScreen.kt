@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -55,7 +56,10 @@ import com.example.comthupohaircut.ui.theme.ScreenGradientStart
 
 enum class MainTab { HOME, FAVORITE }
 @Composable
-fun MainScreen() {
+fun MainScreen(
+    onNavigateToListSound: (categoryName: String) -> Unit,
+    onNavigateToSettings: () -> Unit
+) {
     var selectedTab by remember { mutableStateOf(MainTab.HOME) }
     val gradientBrush = Brush.verticalGradient(
         colors = listOf(
@@ -67,6 +71,7 @@ fun MainScreen() {
         modifier = Modifier
             .fillMaxSize()
             .background(gradientBrush)
+            .statusBarsPadding()
     ) {
         Scaffold(
             containerColor = Color.Transparent,
@@ -75,7 +80,10 @@ fun MainScreen() {
                     selectedTab = selectedTab,
                     onTabSelected = { selectedTab = it }
                 )
-            }
+            },
+//            topBar = {
+//                HomeTopBar()
+//            }
         ) { paddingValues ->
             Box(
                 modifier = Modifier
@@ -84,7 +92,10 @@ fun MainScreen() {
             ) {
                 when (selectedTab) {
                     MainTab.HOME -> {
-                        HomeScreen()
+                        HomeScreen(
+                            onCategoryClick = onNavigateToListSound,
+                            onSettingsClick = onNavigateToSettings
+                        )
                     }
                     MainTab.FAVORITE -> {
                         FavoriteScreen()

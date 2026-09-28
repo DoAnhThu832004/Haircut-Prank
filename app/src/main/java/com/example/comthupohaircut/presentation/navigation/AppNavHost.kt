@@ -38,7 +38,14 @@ fun AppNavHost(navController: NavHostController) {
             )
         }
         composable(Screen.Main.route) {
-            MainScreen()
+            MainScreen(
+                onNavigateToListSound = { categoryName ->
+                    navController.navigate(Screen.ListSound.createRoute(categoryName))
+                },
+                onNavigateToSettings = {
+                    navController.navigate(Screen.Setting.route)
+                }
+            )
         }
     }
 }
