@@ -84,7 +84,7 @@ fun CategoryGridItem(
                 contentDescription = null,
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
-                    .size(80.dp)
+                    .size(120.dp)
                     .align(Alignment.Center)
                     .offset(y = (-10).dp)
             )

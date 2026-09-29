@@ -1,11 +1,10 @@
 package com.example.comthupohaircut.domain.usecase
-import com.example.comthupohaircut.data.local.pref.AppPreferences
+import com.example.comthupohaircut.domain.repository.UserPreferencesRepository
 import javax.inject.Inject
-
 class CompleteIntroUseCase @Inject constructor(
-    private val appPreferences: AppPreferences
+    private val userPreferencesRepository: UserPreferencesRepository
 ) {
     operator fun invoke() {
-        appPreferences.setIntroDone(true)
+        userPreferencesRepository.setIntroDone(true)
     }
 }
