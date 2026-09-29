@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import com.example.comthupohaircut.presentation.screens.intro.IntroScreen
 import com.example.comthupohaircut.presentation.screens.intro.IntroViewModel
 import com.example.comthupohaircut.presentation.screens.main.MainScreen
+import com.example.comthupohaircut.presentation.screens.setting.SettingScreen
 import com.example.comthupohaircut.presentation.screens.splash.SplashScreen
 
 @Composable
@@ -44,6 +45,13 @@ fun AppNavHost(navController: NavHostController) {
                 },
                 onNavigateToSettings = {
                     navController.navigate(Screen.Setting.route)
+                }
+            )
+        }
+        composable(Screen.Setting.route) {
+            SettingScreen(
+                onBackClick = {
+                    navController.popBackStack()
                 }
             )
         }
