@@ -98,7 +98,12 @@ fun MainScreen(
                         )
                     }
                     MainTab.FAVORITE -> {
-                        FavoriteScreen()
+                        FavoriteScreen(
+                            onSoundClick = { sound ->
+                                onNavigateToListSound(sound.idCategory)
+                            },
+                            onSettingsClick = onNavigateToSettings
+                        )
                     }
                 }
             }
