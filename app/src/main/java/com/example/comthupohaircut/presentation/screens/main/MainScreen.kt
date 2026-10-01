@@ -48,7 +48,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.comthupohaircut.R
+import com.example.comthupohaircut.presentation.navigation.Screen
 import com.example.comthupohaircut.presentation.screens.favorite.FavoriteScreen
 import com.example.comthupohaircut.presentation.screens.home.HomeScreen
 import com.example.comthupohaircut.ui.theme.ScreenGradientEnd
@@ -57,6 +59,7 @@ import com.example.comthupohaircut.ui.theme.ScreenGradientStart
 enum class MainTab { HOME, FAVORITE }
 @Composable
 fun MainScreen(
+    navController: NavHostController,
     onNavigateToListSound: (categoryName: String) -> Unit,
     onNavigateToSettings: () -> Unit
 ) {
@@ -100,7 +103,7 @@ fun MainScreen(
                     MainTab.FAVORITE -> {
                         FavoriteScreen(
                             onSoundClick = { sound ->
-                                onNavigateToListSound(sound.idCategory)
+                                navController.navigate(Screen.DetailSound.createRoute(sound.idCategory, sound.pathSound))
                             },
                             onSettingsClick = onNavigateToSettings
                         )

@@ -10,4 +10,11 @@ sealed class Screen(val route: String) {
     }
 
     data object Setting : Screen("setting")
+
+    data object DetailSound : Screen("detail_sound/{categoryName}/{soundPath}") {
+        fun createRoute(categoryName: String, soundPath: String): String {
+            val encodedPath = java.net.URLEncoder.encode(soundPath, "UTF-8")
+            return "detail_sound/$categoryName/$encodedPath"
+        }
+    }
 }

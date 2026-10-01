@@ -16,6 +16,7 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
@@ -23,17 +24,21 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.LineHeightStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.comthupohaircut.R
 import com.example.comthupohaircut.domain.model.Sound
 import com.example.comthupohaircut.presentation.screens.home.CategoryResourceMapper
+import com.example.comthupohaircut.ui.theme.ScreenGradientEnd
+import com.example.comthupohaircut.ui.theme.ScreenGradientStart
 import java.io.File
 
 @Composable
@@ -44,18 +49,29 @@ fun FavoriteItemCard(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    val categoryKey = sound.idCategory.lowercase().replace("","_")
-    val localIconRes = remember(categoryKey) { CategoryResourceMapper.getLocalIcon(categoryKey) }
 
+    val categoryKey = sound.idCategory
+        .lowercase()
+        .replace(" ", "_")
+
+    val localIconRes = remember(categoryKey) {
+        CategoryResourceMapper.getLocalIcon(categoryKey)
+    }
+    val gradientBrush = Brush.verticalGradient(
+        listOf(Color(0xFF8A38F5), Color(0xFFC048FB))
+    )
     Row(
         modifier = modifier
             .fillMaxWidth()
             .height(76.dp)
             .clip(RoundedCornerShape(16.dp))
-            .background(Color.White)
+            .background(gradientBrush)
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
-                indication = ripple(bounded = true, color = Color.White.copy(alpha = 0.3f)),
+                indication = ripple(
+                    bounded = true,
+                    color = Color.White.copy(alpha = 0.3f)
+                ),
                 onClick = onClick
             )
             .padding(horizontal = 16.dp),
@@ -68,14 +84,14 @@ fun FavoriteItemCard(
                 .background(Color.White),
             contentAlignment = Alignment.Center
         ) {
-            if(localIconRes != null) {
+            if (localIconRes != null) {
                 Image(
                     painter = painterResource(localIconRes),
                     contentDescription = null,
                     modifier = Modifier.size(40.dp),
                     contentScale = ContentScale.Fit
                 )
-            } else if(sound.iconPath.isNotEmpty()) {
+            } else if (sound.iconPath.isNotEmpty()) {
                 AsyncImage(
                     model = ImageRequest.Builder(context)
                         .data(File(sound.iconPath))
@@ -86,20 +102,27 @@ fun FavoriteItemCard(
                     contentScale = ContentScale.Fit
                 )
             }
-            Spacer(modifier = Modifier.width(16.dp))
-            Text(
-                text = sound.name.replace(".mp3",""),
-                style = androidx.compose.material3.MaterialTheme.typography.bodyLarge,
+        }
+
+        Spacer(modifier = Modifier.width(16.dp))
+
+        Text(
+            text = sound.name.replace(".mp3", ""),
+            modifier = Modifier.weight(1f),
+            style = MaterialTheme.typography.bodyLarge
+        )
+        IconButton(
+            onClick = onToggleFavorite
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.ic_favorites),
+                contentDescription = null,
+                tint = if (sound.checkFavorite) {
+                    Color.Red
+                } else {
+                    Color.Gray
+                }
             )
-            IconButton(
-                onClick = onToggleFavorite,
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_favorites),
-                    contentDescription = null,
-                    tint = if(sound.checkFavorite) Color.Red else Color.White
-                )
-            }
         }
     }
 }

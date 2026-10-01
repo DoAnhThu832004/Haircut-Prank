@@ -30,9 +30,10 @@ class SoundRepositoryImpl @Inject constructor(
         soundDao.getSoundsByCategoryFlow(categoryId).map { list -> list.map { it.toDomain() } }
     override fun getFavoriteSounds(): Flow<List<Sound>> =
         soundDao.getFavoriteSoundsFlow().map { list -> list.map { it.toDomain() } }
-    override suspend fun getSoundByPath(path: String): Sound? =
+    override suspend fun getSoundByPath(path: String): Sound? = withContext(Dispatchers.IO) {
         soundDao.getSoundByPath(path)?.toDomain()
-    override suspend fun updateFavorite(path: String, isFavorite: Boolean, favTime: Long) {
+    }
+    override suspend fun updateFavorite(path: String, isFavorite: Boolean, favTime: Long) = withContext(Dispatchers.IO) {
         soundDao.updateFavorite(path, isFavorite, favTime)
     }
     override suspend fun prepareInitialData(): Result<Unit> = withContext(Dispatchers.IO) {

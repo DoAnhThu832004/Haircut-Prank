@@ -7,6 +7,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.comthupohaircut.presentation.screens.detail.DetailSoundScreen
 import com.example.comthupohaircut.presentation.screens.intro.IntroScreen
 import com.example.comthupohaircut.presentation.screens.intro.IntroViewModel
 import com.example.comthupohaircut.presentation.screens.listsound.ListSoundScreen
@@ -43,6 +44,7 @@ fun AppNavHost(navController: NavHostController) {
         }
         composable(Screen.Main.route) {
             MainScreen(
+                navController = navController,
                 onNavigateToListSound = { categoryName ->
                     navController.navigate(Screen.ListSound.createRoute(categoryName))
                 },
@@ -71,8 +73,19 @@ fun AppNavHost(navController: NavHostController) {
                     navController.popBackStack()
                 },
                 onSoundClick = { sound ->
-                    // Khi click vào sound: bước tiếp theo ta sẽ mở màn DetailSoundActivity / DetailSoundScreen
+                    navController.navigate(Screen.DetailSound.createRoute(sound.idCategory, sound.pathSound))
                 }
+            )
+        }
+        composable(
+            route = Screen.DetailSound.route,
+            arguments = listOf(
+                navArgument("categoryName") { type = NavType.StringType },
+                navArgument("soundPath") { type = NavType.StringType }
+            )
+        ) {
+            DetailSoundScreen(
+                onBackClick = { navController.popBackStack() }
             )
         }
     }
